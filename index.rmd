@@ -1,0 +1,52 @@
+---
+title: "index2"
+author: "Group 5"
+date: "2/19/2021"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(maps)
+library(mapproj)
+library(patchwork)
+source("wa_aqi_county_map_2016.R")
+source("aqi_sources_chart.R")
+source("wa_income_location_chart.R")
+
+```
+# Air Quality in Washington State
+For our final project, we wanted to explore the relationship between air quality and average household income per county. By looking at these two factors we are investigating whether income and race has an affect on both overall air quality and on the types of pollutants present. 
+
+## Air Quality Index County Map 2016
+```{r, echo = F, message=FALSE}
+ggplot(aqi_counties) +
+  geom_polygon(
+    mapping = aes(x = long, y = lat, group = group, fill = Max.AQI),
+    color = "gray", size = 0.3
+  ) +
+  coord_map() +
+  scale_fill_continuous(limits = c(0, max(aqi_counties$Max.AQI)), na.value = "white", low="green", high="brown") +
+  blank_theme +
+  ggtitle("Max AQI In WA By County")
+```
+As the first part of our analysis, we mapped out the maximum Air Quality Index value for each county in Washington. This shows us where air quality reached the worst conditions. Considering AQI is not calculated per capita, we were surprised to find that Yakima County recorded the highest AQI in Washington despite its relatively low population. As we continue to work through the data, we will look to see which pollutants in particular are at affecting these numbers.  
+
+## Air Pollution Sources 
+```{r, echo = F, message=FALSE}
+long_df %>% 
+  ggplot(mapping = aes(x = Date.Local, y = AQI, group = Sources, color = Sources)) +
+  geom_line() +
+  labs(title = "AQI from different sources") +
+  labs(x = "2015/1/1 - 2016/1/1") +
+  labs(y = "Average AQI")
+```
+The second part of our analysis shows the mean levels of the top pollution sources. While the levels of O3 and CO remain relatively low and constant, the NO2 levels vary significantly. While the transportation industry is a primary source of NO2 pollution, such extreme spikes lead us to believe that these peaks are due to recent wild fire activity. To break this down  further, we hope to break this information down into counties.  
+
+## Household Income 
+```{r, echo = F, message=FALSE}
+ggplot(wa_income_location, aes(x = Year, y = Household.Income.by.Race)) +
+  geom_bar(stat = "identity")
+```
+Our third chart looks at household income by race. By looking at which populations are more likely to live in areas with a poor air quality index, we hope to reveal trends in infrastructure development. As we continue to work with the data, we hope to break down income by county as well as race.
