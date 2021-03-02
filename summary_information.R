@@ -19,7 +19,7 @@ aqi_2016 <- read.csv("annual_aqi_by_county_2016.csv")
 aqi_data <- read.csv("pollution_us_2000_2016.csv")
 
 # Summary information ----------------------------------------------------------
-
+# Income Calculations
 # What is the total income each year?
 yearly_total_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
@@ -27,7 +27,7 @@ yearly_total_income <- income_by_location %>%
   summarise(sum(Household.Income.by.Race))
 
 
-#Which county has the highest average income?
+# Which county has the highest average income?
 temop <- filter(income_by_location, Race == "Total") %>% 
   group_by(Geography) %>% 
   summarise(mean(Household.Income.by.Race)) 
@@ -41,11 +41,7 @@ yearly_maximum_income <- income_by_location %>%
   select(Year, Household.Income.by.Race, Geography)
   
 
-# What is the difference in maximum income reported each year? 
-#yearly_maximum_income <- mutate(
-#  yearly_maximum_income, 
-#  "yearly maximum income difference" = 
-
+# Air Quality Calculations
 aqi_wa <- aqi_2016 %>%
   filter(State == "Washington")
 
