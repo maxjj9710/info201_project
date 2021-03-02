@@ -14,6 +14,7 @@ library(patchwork)
 source("wa_aqi_county_map_2016.R")
 source("aqi_sources_chart.R")
 source("wa_income_location_chart.R")
+source("summary_information.R")
 
 ```
 # Air Quality in Washington State
@@ -49,4 +50,4 @@ The second part of our analysis shows the mean levels of the top pollution sourc
 ggplot(wa_income_location, aes(x = Year, y = Household.Income.by.Race)) +
   geom_bar(stat = "identity")
 ```
-Our third chart looks at household income by race. By looking at which populations are more likely to live in areas with a poor air quality index, we hope to reveal trends in infrastructure development. As we continue to work with the data, we hope to break down income by county as well as race.
+Our third chart looks at income by county per year. By comparing the income levels across counties, we're looking for potential correlations between air quality and income. Our next steps will be to correlate this information with the air quality information. 
