@@ -30,9 +30,8 @@ yearly_total_income <- income_by_location %>%
 #Which county has the highest average income?
 temop <- filter(income_by_location, Race == "Total") %>% 
   group_by(Geography) %>% 
-  summarise(mean(Household.Income.by.Race))
-
-
+  summarise(mean(Household.Income.by.Race)) 
+  
 
 # What and where is the maximum income reported each year? 
 yearly_maximum_income <- income_by_location %>% 
@@ -50,10 +49,26 @@ yearly_maximum_income <- income_by_location %>%
 aqi_wa <- aqi_2016 %>%
   filter(State == "Washington")
 
-# Which of the WA county had the highest amount of good days, and how many?
-highest_good <- aqi_wa %>%
+# Which of the WA county had the highest amount of good days?
+county_highest_good <- aqi_wa %>%
   filter(Good.Days == max(Good.Days), na.rm = TRUE) %>%
-  select(County, Good.Days)
+  select(County)
+
+# How many good days did that county have? 
+days_highest_good <- aqi_wa %>%
+  filter(Good.Days == max(Good.Days), na.rm = TRUE) %>%
+  select(Good.Days)
+
+# Which of the WA county had the lowest amount of good days?
+county_lowest_good <- aqi_wa %>%
+  filter(Good.Days == min(Good.Days), na.rm = TRUE) %>%
+  select(County)
+
+# How many good days did that county have? 
+days_lowest_good <- aqi_wa %>%
+  filter(Good.Days == min(Good.Days), na.rm = TRUE) %>%
+  select(Good.Days)
+
 
 # What is the range between the highest max AQI and the lowest?
 max_range <- range(aqi_wa$Max.AQI)
