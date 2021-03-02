@@ -26,6 +26,14 @@ yearly_total_income <- income_by_location %>%
   group_by(Year) %>% 
   summarise(sum(Household.Income.by.Race))
 
+
+#Which county has the highest average income?
+temop <- filter(income_by_location, Race == "Total") %>% 
+  group_by(Geography) %>% 
+  summarise(mean(Household.Income.by.Race))
+
+
+
 # What and where is the maximum income reported each year? 
 yearly_maximum_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
