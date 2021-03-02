@@ -13,6 +13,7 @@ library(tidyverse)
 # change to this folder to have the file path run properly.
 income_by_location <- read.csv("income_by_location.csv")
 aqi_2016 <- read.csv("annual_aqi_by_county_2016.csv")
+
 # Note: file is too large to be included in github. Download from
 # https://www.kaggle.com/sogun3/uspollution?select=pollution_us_2000_2016.csv
 aqi_data <- read.csv("pollution_us_2000_2016.csv")
@@ -23,14 +24,15 @@ aqi_data <- read.csv("pollution_us_2000_2016.csv")
 yearly_total_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
   group_by(Year) %>% 
-  summarise(sum(`Household Income by Race`))
+  summarise(sum(Household.Income.by.Race))
 
 # What and where is the maximum income reported each year? 
 yearly_maximum_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
   group_by(Year) %>% 
-  filter(`Household Income by Race` == max(`Household Income by Race`)) %>% 
-  select(Year, `Household Income by Race`, Geography)
+  filter(Household.Income.by.Race == max(Household.Income.by.Race, na.rm = FALSE)) %>% 
+  select(Year, Household.Income.by.Race, Geography)
+  
 
 # What is the difference in maximum income reported each year? 
 #yearly_maximum_income <- mutate(
