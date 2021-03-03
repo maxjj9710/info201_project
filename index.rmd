@@ -1,5 +1,5 @@
 ---
-title: "index2"
+title: "Air Quality in Washington"
 author: "Group 5"
 date: "2/19/2021"
 output: html_document
@@ -17,10 +17,21 @@ source("wa_income_location_chart.R")
 source("summary_information.R")
 
 ```
-# Air Quality in Washington State
+
 For our final project, we wanted to explore the relationship between air quality and average household income per county. By looking at these two factors we are investigating whether income and race has an affect on both overall air quality and on the types of pollutants present. 
 
+`r county_highest_good` County had the greatest number of good quality days with `r days_highest_good` days. While `r county_lowest_good` County had the fewest good quality days at `r days_lowest_good` days. 
+
+
+
+
+
+
+
+
 ## Air Quality Index County Map 2016
+The Air Quality Index runs from 0 to 500, the lower the value, the better the air quality. AQI values below 50 are considered good, values over 100 can be unhealthy for sensitive groups, while values over 300 are considered hazardous. DUring the 2020 fire season, parts of Seattle recorded an AQI of 314!
+
 ```{r, echo = F, message=FALSE}
 ggplot(aqi_counties) +
   geom_polygon(
@@ -35,6 +46,8 @@ ggplot(aqi_counties) +
 As the first part of our analysis, we mapped out the maximum Air Quality Index value for each county in Washington. This shows us where air quality reached the worst conditions. Considering AQI is not calculated per capita, we were surprised to find that Yakima County recorded the highest AQI in Washington despite its relatively low population. As we continue to work through the data, we will look to see which pollutants in particular are at affecting these numbers.  
 
 ## Air Pollution Sources 
+The Air Quality Index tracks 5 major sources of air pollution, ground-level ozone (O3), particle pollution, carbon monoxide (CO), sulfur dioxide (SO3) and nitrogen dioxide (NO2). Each of these pollutants is federally regulated by the Clean Air Act. 
+
 ```{r, echo = F, message=FALSE}
 long_df %>% 
   ggplot(mapping = aes(x = Date.Local, y = AQI, group = Sources, color = Sources)) +
