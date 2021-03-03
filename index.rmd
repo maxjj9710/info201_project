@@ -43,6 +43,7 @@ ggplot(aqi_counties) +
   blank_theme +
   ggtitle("Max AQI In WA By County")
 ```
+
 As the first part of our analysis, we mapped out the maximum Air Quality Index value for each county in Washington. This shows us where air quality reached the worst conditions. Considering AQI is not calculated per capita, we were surprised to find that Yakima County recorded the highest AQI in Washington despite its relatively low population. As we continue to work through the data, we will look to see which pollutants in particular are at affecting these numbers.  
 
 ## Air Pollution Sources 
@@ -56,11 +57,25 @@ long_df %>%
   labs(x = "2015/1/1 - 2016/1/1") +
   labs(y = "Average AQI")
 ```
+
 The second part of our analysis shows the mean levels of the top pollution sources. While the levels of O3 and CO remain relatively low and constant, the NO2 levels vary significantly. While the transportation industry is a primary source of NO2 pollution, such extreme spikes lead us to believe that these peaks are due to recent wild fire activity. To break this down  further, we hope to break this information down into counties.  
 
 ## Household Income 
 ```{r, echo = F, message=FALSE}
-ggplot(wa_income_location, aes(x = Year, y = Household.Income.by.Race)) +
-  geom_bar(stat = "identity")
+ggplot(data = race_plot_data) +
+  geom_point(mapping = aes(x = Year, y = `mean_race`,
+                           color = Race)) +
+  labs(title = "Mean Household Income by Race in WA Between 2013 and 2018",
+       x = "Year",
+       y = "Household Income")
+
+ggplot(data = county_plot_data) +
+  geom_point(mapping = aes(x = Year, y = `mean_county`,
+                           color = County)) +
+  labs(title = "Mean Household Income by County in WA Between 2013 and 2018",
+       x = "Year",
+       y = "Household Income",
+       color = "County")
 ```
+
 Our third chart looks at income by county per year. By comparing the income levels across counties, we're looking for potential correlations between air quality and income. Our next steps will be to correlate this information with the air quality information. 

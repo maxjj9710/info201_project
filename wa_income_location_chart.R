@@ -21,18 +21,26 @@ wa_income_location <- income_by_location %>%
   filter(`ID.Race` >= "1", `ID.Race` <= "9") %>%
   mutate("County" = str_sub(Geography, 1, -11)) %>%
   select(Race, Year, `Household.Income.by.Race`, County)
-ggplot(data = wa_income_location) +
-  geom_point(mapping = aes(x = Year, y = `Household.Income.by.Race`,
+
+race_plot_data <- wa_income_location %>%
+  group_by(Race, Year) %>%
+  summarize(mean_race = mean(Household.Income.by.Race))
+
+race_plot <- ggplot(data = race_plot_data) +
+  geom_point(mapping = aes(x = Year, y = `mean_race`,
                            color = Race)) +
-  labs(title = "Household Income by Race in Washington State Between 2013 and
-       2018",
-       x = "Time (years)",
+  labs(title = "Mean Household Income by Race in WA Between 2013 and 2018",
+       x = "Year",
        y = "Household Income")
-ggplot(data = wa_income_location) +
-  geom_point(mapping = aes(x = Year, y = `Household.Income.by.Race`,
+
+county_plot_data <- wa_income_location %>%
+  group_by(County, Year) %>%
+  summarize(mean_county = mean(Household.Income.by.Race))
+
+county_plot <- ggplot(data = county_plot_data) +
+  geom_point(mapping = aes(x = Year, y = `mean_county`,
                            color = County)) +
-  labs(title = "Household Income by County in Washington State Between 2013 and
-       2018",
-       x = "Time (years)",
+  labs(title = "Mean Household Income by County in WA Between 2013 and 2018",
+       x = "Year",
        y = "Household Income",
        color = "County")
