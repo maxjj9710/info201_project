@@ -24,14 +24,15 @@ aqi_data <- read.csv("pollution_us_2000_2016.csv")
 yearly_total_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
   group_by(Year) %>% 
-  summarise(sum(Household.Income.by.Race))
-
+  summarise("Household Income By Race" = sum(Household.Income.by.Race))
 
 # Which county has the highest average income?
-temop <- filter(income_by_location, Race == "Total") %>% 
+highest_county <- filter(income_by_location, Race == "Total") %>% 
   group_by(Geography) %>% 
-  summarise(mean(Household.Income.by.Race)) 
-  
+  summarise(Household.Income.by.Race = mean(Household.Income.by.Race)) %>%
+  arrange(desc(Household.Income.by.Race)) %>%
+  head(n = 1L) %>%
+  pull(Geography)
 
 # What and where is the maximum income reported each year? 
 yearly_maximum_income <- income_by_location %>% 
@@ -40,7 +41,6 @@ yearly_maximum_income <- income_by_location %>%
   filter(Household.Income.by.Race == max(Household.Income.by.Race, na.rm = FALSE)) %>% 
   select(Year, Household.Income.by.Race, Geography)
   
-
 # Air Quality Calculations
 aqi_wa <- aqi_2016 %>%
   filter(State == "Washington")
@@ -48,12 +48,12 @@ aqi_wa <- aqi_2016 %>%
 # Which of the WA county had the highest amount of good days?
 county_highest_good <- aqi_wa %>%
   filter(Good.Days == max(Good.Days), na.rm = TRUE) %>%
-  select(County)
+  pull(County)
 
 # How many good days did that county have? 
 days_highest_good <- aqi_wa %>%
   filter(Good.Days == max(Good.Days), na.rm = TRUE) %>%
-  select(Good.Days)
+  pull(Good.Days)
 
 # Which of the WA county had the lowest amount of good days?
 county_lowest_good <- aqi_wa %>%
@@ -77,4 +77,11 @@ wa_only <- aqi_data %>%
 highest_O3_mean <- wa_only %>%
   filter(NO2.Mean == max(NO2.Mean), na.rm = TRUE) %>%
   select(Date.Local, NO2.Mean) %>%
-  head(1)
+  head(1) %>%
+  pull(NO2.Mean)
+
+highest_O3_mean_date <- wa_only %>%
+  filter(NO2.Mean == max(NO2.Mean), na.rm = TRUE) %>%
+  select(Date.Local, NO2.Mean) %>%
+  head(1) %>%
+  pull(Date.Local)

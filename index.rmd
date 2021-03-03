@@ -7,6 +7,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(knitr)
 library(ggplot2)
 library(maps)
 library(mapproj)
@@ -15,7 +16,7 @@ source("wa_aqi_county_map_2016.R")
 source("aqi_sources_chart.R")
 source("wa_income_location_chart.R")
 source("summary_information.R")
-
+source("aggregate_table.R")
 ```
 
 For our final project, we wanted to explore the relationship between air quality and average household income per county. By looking at these two factors we are investigating whether income and race has an affect on both overall air quality and on the types of pollutants present. 
@@ -23,6 +24,35 @@ For our final project, we wanted to explore the relationship between air quality
 `r county_highest_good` County had the greatest number of good quality days with `r days_highest_good` days. While `r county_lowest_good` County had the fewest good quality days at `r days_lowest_good` days. 
 
 
+## What is the total income each year?
+```{r, echo = F, message=FALSE}
+kable(yearly_total_income)
+```
+
+## What and where is the maximum income reported each year? 
+```{r, echo = F, message=FALSE}
+kable(yearly_maximum_income)
+```
+
+
+## WA Mean Household Income in 2018 By Race
+```{r, echo = F, message=FALSE}
+kable(race_income)
+```
+
+
+
+## WA Top 10 90th Percentile AQI Score By County
+```{r, echo = F, message=FALSE}
+kable(aqi_wa_90)
+```
+
+
+
+## King County WA Pollutant PPM Means in 2015 
+```{r, echo = F, message=FALSE}
+kable(pollution_table)
+```
 
 
 
@@ -30,7 +60,7 @@ For our final project, we wanted to explore the relationship between air quality
 
 
 ## Air Quality Index County Map 2016
-The Air Quality Index runs from 0 to 500, the lower the value, the better the air quality. AQI values below 50 are considered good, values over 100 can be unhealthy for sensitive groups, while values over 300 are considered hazardous. DUring the 2020 fire season, parts of Seattle recorded an AQI of 314!
+The Air Quality Index runs from 0 to 500, the lower the value, the better the air quality. AQI values below 50 are considered good, values over 100 can be unhealthy for sensitive groups, while values over 300 are considered hazardous. During the 2020 fire season, parts of Seattle recorded an AQI of 314!
 
 ```{r, echo = F, message=FALSE}
 ggplot(aqi_counties) +
@@ -50,9 +80,8 @@ As the first part of our analysis, we mapped out the maximum Air Quality Index v
 The Air Quality Index tracks 5 major sources of air pollution, ground-level ozone (O3), particle pollution, carbon monoxide (CO), sulfur dioxide (SO3) and nitrogen dioxide (NO2). Each of these pollutants is federally regulated by the Clean Air Act. 
 
 ```{r, echo = F, message=FALSE}
-long_df %>% 
-  ggplot(mapping = aes(x = Date.Local, y = AQI, group = Sources, color = Sources)) +
-  geom_line() +
+ggplot(data = long_df) +
+  geom_line(mapping = aes(x = Months, y = value, group = metric, color = metric)) +
   labs(title = "AQI from different sources") +
   labs(x = "2015/1/1 - 2016/1/1") +
   labs(y = "Average AQI")
