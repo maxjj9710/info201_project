@@ -20,7 +20,7 @@ source("aggregate_table.R")
 
 For our final project, we wanted to explore the relationship between air quality, race and the average household income per county. By looking at these three factors we are investigating whether income and race has an affect on both overall air quality and on the types of pollutants present. 
 
-`r county_highest_good` County had the greatest number of good quality days with `r days_highest_good` days. While `r county_lowest_good` County had the fewest good quality days at `r days_lowest_good` days. 
+`r county_highest_good` County had the greatest number of good quality days with `r days_highest_good` days. While `r county_lowest_good` County had the fewest good quality days at `r days_lowest_good` days. The county with the highest income was `r highest_county` while `r lowest_county` had the lowest income. 
 
 
 

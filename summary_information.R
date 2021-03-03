@@ -34,6 +34,14 @@ highest_county <- filter(income_by_location, Race == "Total") %>%
   head(n = 1L) %>%
   pull(Geography)
 
+# Which county has the highest average income?
+lowest_county <- filter(income_by_location, Race == "Total") %>% 
+  group_by(Geography) %>% 
+  summarise(Household.Income.by.Race = mean(Household.Income.by.Race)) %>%
+  arrange(Household.Income.by.Race) %>%
+  head(n = 1L) %>%
+  pull(Geography)
+
 # What and where is the maximum income reported each year? 
 yearly_maximum_income <- income_by_location %>% 
   filter(Race == "Total") %>% 
