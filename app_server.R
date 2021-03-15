@@ -6,7 +6,6 @@ library(stringr)
 library(tidyverse)
 
 # Load the dataset.
-source("income_by_location.csv")
 
 # Define the server.
 server <- function(input, output){
