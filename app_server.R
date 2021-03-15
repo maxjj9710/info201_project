@@ -7,3 +7,8 @@ library(tidyverse)
 
 # Load the dataset.
 source("income_by_location.csv")
+
+# Define the server.
+server <- function(input, output){
+  # Insert the code for the charts here. 
+}
