@@ -1,4 +1,5 @@
 # Load the libraries so they are available.
+library(shiny)
 library(dplyr)
 library(ggplot2)
 library(lintr)
@@ -6,7 +7,7 @@ library(stringr)
 library(tidyverse)
 
 # Load the dataset.
-source("income_by_location.csv")
+income_data <- read.csv("income_by_location.csv")
 
 # Define the server.
 server <- function(input, output){
