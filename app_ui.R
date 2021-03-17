@@ -11,7 +11,23 @@ library(shiny)
 # For `interactive_page_two`:
 
 # For `interactive_page_three`:
-
+date_input <- sliderInput(
+  inputId = "date_range",
+  label = "Date (year)",
+  min = 2013,
+  max = 2018,
+  value = c(2013, 2018)
+)
+county_input <- selectInput(
+  inputId = "",
+  label = "Select a county",
+  choices = c(
+    "Benton", "Chelan", "Clallam", "Clark", "Cowlitz", "Franklin", "Grant",
+    "Grays Harbor", "Island", "King", "Kitsap", "Lewis", "Mason", "Pierce",
+    "Skagit", "Snohomish", "Spokane", "Thurston", "Whatcom", "Yakima"
+  ),
+  selected = "Benton"
+)
 
 # Define a variable, `page_one`, for your first page. It should be a
 # `tabPanel()` with a title, "Introduction", to represent the first tab. This
@@ -142,15 +158,16 @@ interactive_page_two <- tabPanel(
 )))
 # Vriana
 interactive_page_three <- tabPanel(
-  "Title",                 # Title of the page; what will appear as the tab name
+  "Washington State Income by County and Race",   # Title of the page; what will appear as the tab name
   sidebarLayout(             
-    sidebarPanel( 
-      "Text"
+    sidebarPanel(
       # Left side of the page 
       # Insert widgets or text here -- their variable name(s), NOT the raw code
+      date_input,
+      county_input
     ),           
     mainPanel(                  # Typically where you place your plots and texts
-      plotlyOutput(""),
+      plotlyOutput("income_location_plot"),
       p("Text")
       # Insert chart and/or text here -- the variable name(s), NOT the code
 )))
