@@ -4,7 +4,7 @@ library(shiny)
 library(tidyverse)
 
 # We will begin by defining some of the UI elements as variables. This helps
-# keep the code organized and easier to debug. 
+# keep the code organized and easier to debug.
 
 # Create the widgets.
 # For `interactive_page_one`:
@@ -20,7 +20,7 @@ date_input <- sliderInput(
   value = c(2013, 2018)
 )
 county_input <- selectInput(
-  inputId = "county",
+  inputId = "select_county",
   label = "Select a county",
   choices = c(
     "Benton", "Chelan", "Clallam", "Clark", "Cowlitz", "Franklin", "Grant",
@@ -34,14 +34,10 @@ county_input <- selectInput(
 # `tabPanel()` with a title, "Introduction", to represent the first tab. This
 # layout will contain the following elements:
 introductory_page <- tabPanel(
-  "Introduction",                 # Title of the page; what will appear as the tab name
-  sidebarLayout(
-    sidebarPanel(
-      "Text"
+  "Introduction",          # Title of the page; what will appear as the tab name
       # Left side of the page
       # Insert widgets or text here -- their variable name(s), NOT the raw code
-    ),
-    mainPanel(                  # Typically where you place your plots and texts
+  mainPanel(                    # Typically where you place your plots and texts
       p("For our final project, we wanted to explore the relationship between
         air quality, race and the average household income per county. By
         looking at these three factors we are investigating whether income and
@@ -66,7 +62,7 @@ introductory_page <- tabPanel(
       tags$p("Particulate pollution, refers to  microscopic particles suspended
              in the air. Sources of particulate pollution can be naturally
              occurring or human-made.
-
+              
               Some naturally occurring sources of particulate pollution are:
               volcanoes, dust storms, wild fires and living vegetation.
               Human-made sources include: burning fossil fuels, power plants,
@@ -78,8 +74,8 @@ introductory_page <- tabPanel(
                 pollution as harmful to individual health with a clear correlations
                 between increased particulate pollution and lung cancer. Globally,
                 particulate pollution is the sixth leading risk factor for
-                premature death."
-      ),
+                premature death."),
+      
       tags$h3("Carbon Monoxide"),
       tags$h3("Sulfur Dioxide"),
       tags$h3("Nitrogen Dioxide"),
@@ -99,25 +95,20 @@ introductory_page <- tabPanel(
       tags$h1("Household"),
       tags$p("Next, we wanted to see if there was a correlation between the
           air quality and the majority race and income for the county.
-
           What and where is the maximum income reported each year?
-
           As the most densely populated county, King County tops the list of highest income.
-
           WA Mean Household Income in 2018 By Race
           Next, we charted the annual household income by race.
-
           Finally, we charted income by county per year. By comparing the income
                  levels across counties, we're looking for potential correlations
                  between air quality and income. Our next steps will be to pair
                  this information with air quality")
-    )
-    # Insert chart and/or text here -- the variable name(s), NOT the code
   )
+    # Insert chart and/or text here -- the variable name(s), NOT the code
 )
-# 
-# # Create the other pages.
-# # Rona
+
+# Create the other pages.
+# Rona
 # interactive_page_one <- tabPanel(
 #   "Text",                 # Title of the page; what will appear as the tab name
 #   sidebarLayout(             
@@ -144,13 +135,11 @@ interactive_page_two <- tabPanel(
       plotlyOutput(""),
       p("Text")
       # Insert chart and/or text here -- the variable name(s), NOT the code
-    )
-  )
-)
+    )))
 
 # Vriana
 interactive_page_three <- tabPanel(
-  "Washington State Income by County and Race",   # Title of the page; what will appear as the tab name
+  "Household Income",      # Title of the page; what will appear as the tab name
   sidebarLayout(
     sidebarPanel(
       # Left side of the page
@@ -160,12 +149,16 @@ interactive_page_three <- tabPanel(
     ),
     mainPanel(                  # Typically where you place your plots and texts
       plotlyOutput("income_location_plot"),
-      p("Text")
+      tags$h3("Purpose"),
+      p("The interactive dot plot above can be utilized to investigate household
+        income by county and race in Washington state. The question we
+        ultimately hope to answer is: Does money have any relation to air
+        quality? If so, what?"),
+      tags$h3("Findings"),
+      p("text")
       # Insert chart and/or text here -- the variable name(s), NOT the code
-    )
-  )
-)
-# 
+    )))
+
 # concluding_page <- tabPanel(
 #   "Conclusion",            # Title of the page; what will appear as the tab name
 #   mainPanel(                    # Typically where you place your plots and texts
@@ -178,7 +171,7 @@ interactive_page_three <- tabPanel(
 ui <- navbarPage(
   "Final Deliverable: Title",
   introductory_page,
-  # # Insert other pages here
+  # Insert other pages here
   # interactive_page_one,
   # interactive_page_two,
   interactive_page_three
