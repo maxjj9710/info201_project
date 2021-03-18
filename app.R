@@ -1,4 +1,6 @@
-# Setup ------------------------------------------------------------------------
+# Group 5: Vriana Gatdula, Rona Guo, Aubrey Jones, Max Wang
+# INFO 201 A // AE
+# Final Deliverable
 
 # Load the libraries so they are available.
 library(shiny)

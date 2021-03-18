@@ -1,3 +1,7 @@
+# Group 5: Vriana Gatdula, Rona Guo, Aubrey Jones, Max Wang
+# INFO 201 A // AE
+# Final Deliverable
+
 # Load the libraries so they are available.
 library(plotly)
 library(shiny)
@@ -8,9 +12,18 @@ source("app_server.R")
 # keep the code organized and easier to debug.
 
 # Create the widgets.
-# For `interactive_page_one`:
+month_input <- dateRangeInput(
+  inputId = "month_range",
+  label = "Date",
+  start = "2015-04-25",
+  end = "2016-04-25",
+  format = "yyyy-mm-dd",
+  startview = "month",
+  weekstart = 0,
+  language = "en",
+  separator = " to "
+)
 
-# For `interactive_page_two`:
 stat_input <- selectInput(
   inputId = "stat",
   label = h3("Statistic"),
@@ -20,7 +33,6 @@ stat_input <- selectInput(
   selected = "Max AQI"
 )
 
-# For `interactive_page_three`:
 date_input <- sliderInput(
   inputId = "date_range",
   label = "Date (year)",
@@ -39,9 +51,6 @@ county_input <- selectInput(
   selected = "Benton"
 )
 
-# Define a variable, `page_one`, for your first page. It should be a
-# `tabPanel()` with a title, "Introduction", to represent the first tab. This
-# layout will contain the following elements:
 introductory_page <- tabPanel(
   "Introduction",          # Title of the page; what will appear as the tab name
       # Left side of the page
@@ -60,7 +69,8 @@ introductory_page <- tabPanel(
       pollutants present."),
 
     h1("Data"),
-      a(href = "https://www.kaggle.com/sogun3/uspollution?select=pollution_us_2000_2016.csv",
+      a(href = paste0("https://www.kaggle.com/sogun3/uspollution?select",
+                      "=pollution_us_2000_2016.csv"),
         "U.S. Pollution Data"),
         tags$ul(
           tags$li("The data was originally pulled from the United States
@@ -68,8 +78,8 @@ introductory_page <- tabPanel(
           make it easier for data scientists to analyze. It deals with four
           major pollutants in the United States."),
           tags$li("About 1.4 million observations, 28 features."),
-          tags$li("Used to answer: Pollution levels across the U.S. and the types of
-             major pollutants.")
+          tags$li("Used to answer: Pollution levels across the U.S. and the
+                  types of major pollutants.")
         ),
 
     a(href = "https://aqs.epa.gov/aqsweb/airdata/download_files.html",
@@ -139,7 +149,7 @@ introductory_page <- tabPanel(
         industrial processes. Less significant sources include metal ore
         extraction and heavy transportation like trains and ships. Sulfur
         dioxide is also released into the atmosphere during volcanic
-        eruptions."), 
+        eruptions."),
       p("High levels of SO2 can harm the respiratory system and can damage
         plant foliage, disrupt sensitive ecosystems and leads to the formation
         of additional sulfur compounds which can lead to acid rain and
@@ -180,9 +190,8 @@ introductory_page <- tabPanel(
 
     )
 
-# Create the other pages.
 # Max
-interactive_page_one <- tabPanel(
+interactive_page_two <- tabPanel(
   "AQI Statistics",
 
   sidebarLayout(
@@ -206,33 +215,44 @@ interactive_page_one <- tabPanel(
 )
 
 # Rona
-# interactive_page_two <- tabPanel(
-#   "Text",                 # Title of the page; what will appear as the tab name
-#   sidebarLayout(             
-#     sidebarPanel( 
-#       "Text"
-#       # Left side of the page 
-#       # Insert widgets or text here -- their variable name(s), NOT the raw code
-#     ),           
-#     mainPanel(                  # Typically where you place your plots and texts
-#       plotlyOutput(""),
-#       p("Text")
-#       # Insert chart and/or text here -- the variable name(s), NOT the code
-#     )
-#   )
-# )
+interactive_page_one <- tabPanel(
+
+  "Pollution by date in WA",
+
+  sidebarLayout(
+
+    sidebarPanel(
+      month_input
+    ),
+    mainPanel(
+
+      plotlyOutput("month_range_plot"),
+      tags$h3("Purpose"),
+      p("The plot above shows you the variation in mean pollution levels of CO,
+        NO2, O3, SO2 in the Washington State over the course of a year. The date
+        range widget allows you to select the date range to see how pollution
+        level changes in different seasons/days. With this interactive plot you
+        could also see the mean levels of pollution on each day."),
+      tags$h3("Findings"),
+      p("We found that Carbon Monoxide(CO) is the leading polluant and
+         consistanly outperform the other sources of polluant over the year. CO
+         is released when things containing carbpn is burned. The highest peaks
+         of avg AQI by CO happened on July 8th and November 30th, when we had
+         record heat in Washington and huge wildfires. We think the wildfires
+         we had that year contributed to the large amount of CO.")
+    )
+  )
+)
 
 # Vriana
 interactive_page_three <- tabPanel(
-  "Household Income",      # Title of the page; what will appear as the tab name
+  "Household Income",
   sidebarLayout(
     sidebarPanel(
-      # Left side of the page
-      # Insert widgets or text here -- their variable name(s), NOT the raw code
       date_input,
       county_input
     ),
-    mainPanel(                  # Typically where you place your plots and texts
+    mainPanel(
       plotlyOutput("income_location_plot"),
       tags$h3("Purpose"),
       p("The interactive dot plot above can be utilized to investigate household
@@ -245,25 +265,57 @@ interactive_page_three <- tabPanel(
       and White Non-Hispanics being among the top earners of income. And, as
       previously discovered, these same counties ''win out'' in median AQI as a
         result of increasing population and urbanicity.")
-      # Insert chart and/or text here -- the variable name(s), NOT the code
     )
   )
 )
 
-# concluding_page <- tabPanel(
-#   "Conclusion",            # Title of the page; what will appear as the tab name
-#   mainPanel(                    # Typically where you place your plots and texts
-#       p("Our Findings"),
-#       # Insert chart and/or text here -- the variable name(s), NOT the code
-#       p("Text")
-# ))
+concluding_page <- tabPanel(
+
+  "Conclusion",
+
+  mainPanel(
+    h1("Our Findings"),
+    p("In our analysis, we aimed to study if there is correlation between,
+       income and air quality of counties in the Washington State. This topic
+       resulted from the society's increasing awareness on the social inequality
+       issues."),
+    tags$ul(
+      tags$li("We started by looking at the sources of pollution and their
+               variation at different time between April of 2015 and April of
+               2016. We found out that Carbon Monoxide is the predominate
+               pollutant in the state of Washingotn and it is especially bad
+               during the Wildfire season when we had record heat.Sulfur Dioxide
+               ranks second while Ozone and Nitrogen Dioxide remains fairly low
+               throughout the year"),
+      tags$li("Nex, we looked at the air quality of different counties in the
+              state. We found out that counties in the mountains had the worst
+              AQI in 2016 but it is likely correlated to the bad fire outbreak
+              in our national and state forests in 2016. However, urban areas
+              like King county had the worst median AQI."),
+      tags$li("Lastly, we studied the intersectionality of income and race in
+              counties. Overall, it seems like that people of Asian or White
+              have higher household income than people who are Native, Hispanic,
+              or Black. If we focus on King County (the most populated county
+              in WA, we can see the people who identify as Asian or White
+              makes $111,609 and $100,298 respectively in 2018 while people
+              whoe identify as Black makes $55,152, almost 50% less. It is
+              also worth noting that people who are White Non-Hispanic is
+              making almost $1000 more than people who identify as White."),
+      p("Our analysis of these datasets offered us insights to the air quality
+       and income disparity between the counties in Washington. There are an
+       obvious gap in income between races, even for people that live in the
+       same county. In addition, counties that are by the forest and in urban
+       communities tend to have worse air qualities.")
+    )
+  )
+)
 
 # Define the UI and what pages/tabs go into it.
 ui <- navbarPage(
   "Final Deliverable",
   introductory_page,
-  # interactive_page_one,
+  interactive_page_one,
   interactive_page_two,
-  interactive_page_three
-  # concluding_page
+  interactive_page_three,
+  concluding_page
 )
