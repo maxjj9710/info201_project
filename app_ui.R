@@ -2,6 +2,7 @@
 library(plotly)
 library(shiny)
 library(tidyverse)
+source("app_server.R")
 
 # We will begin by defining some of the UI elements as variables. This helps
 # keep the code organized and easier to debug.
@@ -30,6 +31,15 @@ county_input <- selectInput(
   selected = "Benton"
 )
 
+stat_input <- selectInput(
+  inputId = "stat",
+  label = h3("Statistic"),
+  choices = list("Max AQI" = "Max.AQI",
+              "90th Percentile AQI" = "X90th.Percentile.AQI",
+              "Median AQI" = "Median.AQI"),
+  selected = "Max AQI"
+)
+
 # Define a variable, `page_one`, for your first page. It should be a
 # `tabPanel()` with a title, "Introduction", to represent the first tab. This
 # layout will contain the following elements:
@@ -39,7 +49,9 @@ introductory_page <- tabPanel(
       # Insert widgets or text here -- their variable name(s), NOT the raw code
   
   mainPanel(   
-    img(src = "Hong_kong_haze_comparison.jpg", height = "75%", width = "75%"),
+    column(12, img(src = "Hong_kong_haze_comparison.jpg",
+                   height = "75%", width = "75%"),
+           align = "center"),
     h1("Introduction"),
     p("For our final project, we wanted to explore the relationship between
       air quality, race and the average household income per county. By
@@ -70,7 +82,9 @@ introductory_page <- tabPanel(
         tags$li("Used to answer: Where and how air quality in Washington has changed.")
       ),
     
-    a(href = "https://datausa.io/profile/geo/washington#:~:text=Households%20in%20Washington%20have%20a,represents%20a%204.36%25%20annual%20growth",
+    a(href = paste0("https://datausa.io/profile/geo/washington#:~:text=",
+                    "Households%20in%20Washington%20have%20a,",
+                    "represents%20a%204.36%25%20annual%20growth"),
       "WA Income by Race and County"),
       tags$ul(
         tags$li("Collected by the United States Census."),
@@ -177,21 +191,32 @@ introductory_page <- tabPanel(
 #       plotlyOutput(""),
 #       p("Text")
 #       # Insert chart and/or text here -- the variable name(s), NOT the code
-# )))
+#     )
+#   )
+# )
 # Max
 interactive_page_two <- tabPanel(
-  "Title",                 # Title of the page; what will appear as the tab name
+  "AQI Statistics",
+  
   sidebarLayout(
-    sidebarPanel(
-      "Text"
-      # Left side of the page
-      # Insert widgets or text here -- their variable name(s), NOT the raw code
-    ),
-    mainPanel(                  # Typically where you place your plots and texts
-      plotlyOutput(""),
-      p("Text")
-      # Insert chart and/or text here -- the variable name(s), NOT the code
-    )))
+    
+    sidebarPanel(stat_input),
+    
+    mainPanel(
+      plotlyOutput("stat_plot"),
+      h3("Purpose"),
+      p("The interactive map looks at air qualities in various counties in
+        Washington state. Using different statistical numbers, we can see how
+        each county performs on the AQI in different areas."),
+      h3("Findings"),
+      p("In terms of having worst AQIs, Yakima scored the highest in terms of
+        Max and 90th Percentile AQI. We believe this could be due to wild fires
+        which can drastically worsen air quality. However, in terms of Median
+        AQI, the more urban counties like King win out. There, higher population
+        and urbanicity would lead to consistently worse air quality.")
+    )
+  )
+)
 
 # Vriana
 interactive_page_three <- tabPanel(
@@ -213,7 +238,9 @@ interactive_page_three <- tabPanel(
       tags$h3("Findings"),
       p("text")
       # Insert chart and/or text here -- the variable name(s), NOT the code
-    )))
+    )
+  )
+)
 
 # concluding_page <- tabPanel(
 #   "Conclusion",            # Title of the page; what will appear as the tab name
@@ -225,11 +252,10 @@ interactive_page_three <- tabPanel(
 
 # Define the UI and what pages/tabs go into it. 
 ui <- navbarPage(
-  "Final Deliverable: Title",
+  "Final Deliverable",
   introductory_page,
-  # Insert other pages here
   # interactive_page_one,
-  # interactive_page_two,
+  interactive_page_two,
   interactive_page_three
   # concluding_page
 )

@@ -25,7 +25,8 @@ aqi_wa$County = tolower(aqi_wa$County)
 aqi_counties <- map_data("county") %>%
   filter(region == "washington") %>%
   rename(County = subregion) %>%
-  left_join(aqi_wa, by="County")
+  left_join(aqi_wa, by="County") %>%
+  rename('Max AQI' = Max.AQI)
 
 blank_theme <- theme_bw() +
   theme(
@@ -42,10 +43,10 @@ blank_theme <- theme_bw() +
 # Making the map for the max AQI in WA by county.
 max_aqi_map <- ggplot(aqi_counties) +
   geom_polygon(
-    mapping = aes(x = long, y = lat, group = group, fill = Max.AQI),
+    mapping = aes(x = long, y = lat, group = group, fill = 'Max AQI'),
     color = "gray", size = 0.3
   ) +
   coord_map() +
-  scale_fill_continuous(limits = c(0, max(aqi_counties$Max.AQI)), na.value = "white", low="green", high="brown") +
+  scale_fill_continuous(limits = c(0, max('Max AQI')), na.value = "white", low="green", high="brown") +
   blank_theme +
   ggtitle("Max AQI In WA By County")
