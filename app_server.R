@@ -50,11 +50,9 @@ wa_income_location <- income_county_data %>%
 # Define the server.
 server <- function(input, output){
   # Insert the code for the charts here.
-  # Rona's chart:
-  
   # Max's chart:
   output$stat_plot <- renderPlotly({
-    
+
     ggplot(aqi_counties) +
       geom_polygon(
         mapping = aes_string(x = "long", y = "lat",
@@ -68,6 +66,8 @@ server <- function(input, output){
       blank_theme +
       ggtitle("2016 AQI Statistics in WA State by County")
   })
+
+  # Rona's Chart
   
   # Vriana's chart:
   output$income_location_plot <- renderPlotly({
