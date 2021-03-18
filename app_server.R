@@ -31,14 +31,14 @@ aqi_counties <- map_data("county") %>%
 
 blank_theme <- theme_bw() +
   theme(
-    axis.line = element_blank(),        # remove axis lines
-    axis.text = element_blank(),        # remove axis labels
-    axis.ticks = element_blank(),       # remove axis ticks
-    axis.title = element_blank(),       # remove axis titles
-    plot.background = element_blank(),  # remove gray background
-    panel.grid.major = element_blank(), # remove major grid lines
-    panel.grid.minor = element_blank(), # remove minor grid lines
-    panel.border = element_blank()      # remove border around plot
+    axis.line = element_blank(),        # Remove axis lines
+    axis.text = element_blank(),        # Remove axis labels
+    axis.ticks = element_blank(),       # Remove axis ticks
+    axis.title = element_blank(),       # Remove axis titles
+    plot.background = element_blank(),  # Remove gray background
+    panel.grid.major = element_blank(), # Remove major grid lines
+    panel.grid.minor = element_blank(), # Remove minor grid lines
+    panel.border = element_blank()      # Remove border around plot
   )
 
 # Vriana's data:
