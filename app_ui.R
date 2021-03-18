@@ -11,6 +11,14 @@ source("app_server.R")
 # For `interactive_page_one`:
 
 # For `interactive_page_two`:
+stat_input <- selectInput(
+  inputId = "stat",
+  label = h3("Statistic"),
+  choices = list("Max AQI" = "Max.AQI",
+                 "90th Percentile AQI" = "X90th.Percentile.AQI",
+                 "Median AQI" = "Median.AQI"),
+  selected = "Max AQI"
+)
 
 # For `interactive_page_three`:
 date_input <- sliderInput(
@@ -29,15 +37,6 @@ county_input <- selectInput(
     "Skagit", "Snohomish", "Spokane", "Thurston", "Whatcom", "Yakima"
   ),
   selected = "Benton"
-)
-
-stat_input <- selectInput(
-  inputId = "stat",
-  label = h3("Statistic"),
-  choices = list("Max AQI" = "Max.AQI",
-              "90th Percentile AQI" = "X90th.Percentile.AQI",
-              "Median AQI" = "Median.AQI"),
-  selected = "Max AQI"
 )
 
 # Define a variable, `page_one`, for your first page. It should be a
@@ -236,7 +235,11 @@ interactive_page_three <- tabPanel(
         ultimately hope to answer is: Does money have any relation to air
         quality? If so, what?"),
       tags$h3("Findings"),
-      p("text")
+      p("A trend that seems to appear commonly, especially in the more urban
+      counties--King, Pierce, Snohomish, Spokane, and Clark--is Asians, Whites,
+      and White Non-Hispanics being among the top earners of income. And, and
+        previously discovered, these same counties ''win out'' in median AQI as a
+        result of increasing population and urbanicity.")
       # Insert chart and/or text here -- the variable name(s), NOT the code
     )
   )
